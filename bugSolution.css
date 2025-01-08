@@ -1,0 +1,26 @@
+The main problem with the original CSS is the misuse of calc within a flex context where the parent container's size isn't explicitly defined. Depending on the context (flexbox, grid, etc.), it's crucial to ensure that the parent element's dimensions are established before using `calc()` to subtract from it. If the parent doesn't have a defined width, `calc(100% - 20px)` won't calculate properly.
+
+Here's the solution:
+
+Instead of relying solely on `calc()` to determine the width, set the parent container's width explicitly.  Or, if the parent should naturally fit its contents, ensure that there is a defined width or other constraints on the container's dimensions. 
+
+```css
+/*bug.css (incorrect)*/
+.container {
+  display: flex;
+}
+.element {
+  width: calc(100% - 20px);
+  background-color: lightblue;
+}
+
+/*bugSolution.css (correct)*/
+.container {
+  display: flex;
+  width: 300px; /* or any explicit width */
+}
+.element {
+  width: calc(100% - 20px);
+  background-color: lightblue;
+}
+```
